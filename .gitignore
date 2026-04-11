@@ -1,0 +1,7 @@
+# VSCodium
+.vscode
+
+# Compilers
+bin
+obj
+build

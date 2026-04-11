@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>main</AssemblyName>
+    <Nullable>enable</Nullable>
+
+    <BaseIntermediateOutputPath>obj/cs/</BaseIntermediateOutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+
+    <PublishTrimmed>true</PublishTrimmed>
+    <TrimMode>full</TrimMode>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Raylib-cs">
+      <HintPath>D:\dev\common_libs\Raylib-cs.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="D:\dev\common_libs\raylib.dll">
+      <Link>raylib.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+
+  <PropertyGroup Condition="'$(PublishDir)' != ''">
+    <PublishDir>build\bin\</PublishDir>
+  </PropertyGroup>
+
+  <Target Name="MoveDllsAfterPublish" AfterTargets="Publish">
+    <ItemGroup>
+      <PublishedDlls Include="$(PublishDir)*.dll" />
+    </ItemGroup>
+    <MakeDir Directories="build\dll\" Condition="'@(PublishedDlls)' != ''" />
+    <Move SourceFiles="@(PublishedDlls)" DestinationFolder="build\dll\" />
+  </Target>
+</Project>
