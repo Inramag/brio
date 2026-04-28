@@ -1,5 +1,6 @@
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
+using System.Numerics;
 
 namespace Engine;
 
@@ -7,7 +8,38 @@ public class Object {
     public readonly int id;
     public string name;
     public Rect rect;
+    public Rect wrect {
+        get {
+            Rect pr = parent?.wrect ?? new Rect(0, 0, Scene.camera.resol.x, Scene.camera.resol.y);
+            return new Rect(
+                pr.x + rect.x,
+                pr.y + rect.y,
+                _anchor.IsHStretch ? pr.width - (rect.x + rect.width) : rect.width,
+                _anchor.IsVStretch ? pr.height - (rect.y + rect.height) : rect.height
+            );
+        }
+    }
     public int layer;
+    private Anchor _anchor = Anchor.TopLeft;
+    public Anchor anchor {
+        get => _anchor;
+        set {
+            if (_anchor == value) return;
+            var from = _anchor;
+            var to = value;
+            var pres = parent is null ? (Vector2)Scene.camera.resol : new (parent.wrect.width, parent.wrect.height);
+
+            var stan = new Vector2(
+                from.IsHStretch ? pres.x - (rect.x + rect.width) : rect.width,
+                from.IsVStretch ? pres.y - (rect.y + rect.height) : rect.height
+            );
+
+            rect.width = to.IsHStretch ? pres.x - (rect.x + stan.x) : stan.x;
+            rect.height = to.IsVStretch ? pres.y - (rect.y + stan.y) : stan.y;
+
+            _anchor = value;
+        }
+    }
 
     public Object? parent { get; private set; }
     readonly List<Object> children = [];

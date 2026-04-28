@@ -5,29 +5,23 @@
     <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>main</AssemblyName>
     <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
     <BaseIntermediateOutputPath>obj/cs/</BaseIntermediateOutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 
-    <PublishTrimmed>true</PublishTrimmed>
-    <TrimMode>full</TrimMode>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Raylib-cs">
-      <HintPath>D:\dev\common_libs\Raylib-cs.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="D:\dev\common_libs\raylib.dll">
-      <Link>raylib.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="5.3.0" />
+    <PackageReference Include="Raylib-cs" Version="7.0.2" />
   </ItemGroup>
 
 
-  <PropertyGroup Condition="'$(PublishDir)' != ''">
+
+  <PropertyGroup>
     <PublishDir>build\bin\</PublishDir>
   </PropertyGroup>
 

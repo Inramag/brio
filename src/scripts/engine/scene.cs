@@ -5,7 +5,7 @@ namespace Engine;
 
 public class Scene {
     public readonly int id;
-    public Camera camera;
+    public static Camera camera;
     readonly List<Object> objects = [];
 
     static int _lid = 0;
@@ -13,15 +13,13 @@ public class Scene {
     static Scene _curr;
     static readonly List<Scene> _scenes = [];
 
-    public Scene() : this(new Camera(new Vector2Int(1920, 1080), new Color(80, 80, 80))) {}
-    public Scene(Camera _camera) {
+    public Scene() {
         if (_fid.Count == 0) id = _lid++;
         else {
             var _id = _fid.Min();
             _fid.Remove(_id);
             id = _id;
         }
-        camera = _camera;
         _scenes.Add(this);
     }
     public static void Load(Scene scene) => _curr = scene;
